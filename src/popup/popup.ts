@@ -47,6 +47,12 @@ function setupEventListeners(): void {
   });
   elements.settingsForm.addEventListener('submit', handleSettingsSubmit);
   
+  // Test mode toggle - update labels immediately
+  const testModeCheckbox = elements.settingsForm.querySelector('input[name="testMode"]') as HTMLInputElement;
+  testModeCheckbox?.addEventListener('change', (e) => {
+    updateDurationLabels((e.target as HTMLInputElement).checked);
+  });
+  
   // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && !e.repeat) {
@@ -135,6 +141,39 @@ async function loadSettings(): Promise<void> {
     currentSettings.notifications;
   (form.elements.namedItem('testMode') as HTMLInputElement).checked = 
     currentSettings.testMode;
+  
+  // Update duration labels based on test mode
+  updateDurationLabels(currentSettings.testMode);
+}
+
+/**
+ * Update duration input labels based on test mode
+ */
+function updateDurationLabels(isTestMode: boolean): void {
+  const unit = isTestMode ? 'seconds' : 'minutes';
+  const focusLabel = document.querySelector('label[for="focus-duration"]');
+  const breakLabel = document.querySelector('label[for="break-duration"]');
+  
+  if (focusLabel) focusLabel.textContent = `Focus Duration (${unit})`;
+  if (breakLabel) breakLabel.textContent = `Break Duration (${unit})`;
+  
+  // Update input values
+  const focusInput = document.getElementById('focus-duration') as HTMLInputElement;
+  const breakInput = document.getElementById('break-duration') as HTMLInputElement;
+  
+  if (isTestMode) {
+    // Convert to seconds for display
+    focusInput.value = String(currentSettings.focusDuration);
+    breakInput.value = String(currentSettings.breakDuration);
+    focusInput.min = '5';
+    breakInput.min = '5';
+  } else {
+    // Convert to minutes for display
+    focusInput.value = String(Math.floor(currentSettings.focusDuration / 60));
+    breakInput.value = String(Math.floor(currentSettings.breakDuration / 60));
+    focusInput.min = '1';
+    breakInput.min = '1';
+  }
 }
 
 /**
@@ -213,12 +252,16 @@ async function handleSettingsSubmit(e: Event): Promise<void> {
   
   const form = e.target as HTMLFormElement;
   const formData = new FormData(form);
+  const isTestMode = formData.get('testMode') === 'on';
+  
+  // If test mode, values are in seconds, otherwise in minutes
+  const multiplier = isTestMode ? 1 : 60;
   
   const settings: Settings = {
-    focusDuration: Number(formData.get('focusDuration')) * 60,
-    breakDuration: Number(formData.get('breakDuration')) * 60,
+    focusDuration: Number(formData.get('focusDuration')) * multiplier,
+    breakDuration: Number(formData.get('breakDuration')) * multiplier,
     notifications: formData.get('notifications') === 'on',
-    testMode: formData.get('testMode') === 'on',
+    testMode: isTestMode,
   };
   
   await saveSettings(settings);
