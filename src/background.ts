@@ -29,6 +29,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 // Handle alarms
 chrome.alarms.onAlarm.addListener((alarm) => {
+  console.log('[TrueFocus] Alarm fired:', alarm.name);
   if (alarm.name === 'truefocus-timer') {
     handleTimerTick();
   }

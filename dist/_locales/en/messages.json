@@ -1,0 +1,98 @@
+{
+  "extName": {
+    "message": "TrueFocus",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "A productivity-focused Chrome extension for managing focus time and tasks using the Pomodoro technique",
+    "description": "Extension description"
+  },
+  "toggleTimerShortcut": {
+    "message": "Toggle timer",
+    "description": "Keyboard shortcut description"
+  },
+  "focusCompleteTitle": {
+    "message": "Focus Complete!",
+    "description": "Notification title when focus session completes"
+  },
+  "focusCompleteMessage": {
+    "message": "Great job! Time for a break.",
+    "description": "Notification message when focus session completes"
+  },
+  "breakCompleteTitle": {
+    "message": "Break Complete!",
+    "description": "Notification title when break completes"
+  },
+  "breakCompleteMessage": {
+    "message": "Break's over! Ready to focus?",
+    "description": "Notification message when break completes"
+  },
+  "focusMode": {
+    "message": "Focus",
+    "description": "Focus mode label"
+  },
+  "shortBreakMode": {
+    "message": "Short Break",
+    "description": "Short break mode label"
+  },
+  "longBreakMode": {
+    "message": "Long Break",
+    "description": "Long break mode label"
+  },
+  "startTimer": {
+    "message": "Start Timer",
+    "description": "Start timer button"
+  },
+  "pauseTimer": {
+    "message": "Pause Timer",
+    "description": "Pause timer button"
+  },
+  "resetTimer": {
+    "message": "Reset Timer",
+    "description": "Reset timer button"
+  },
+  "skipTimer": {
+    "message": "Skip",
+    "description": "Skip to next button"
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Settings title"
+  },
+  "focusDuration": {
+    "message": "Focus Duration (minutes)",
+    "description": "Focus duration setting label"
+  },
+  "shortBreakDuration": {
+    "message": "Short Break (minutes)",
+    "description": "Short break duration setting label"
+  },
+  "longBreakDuration": {
+    "message": "Long Break (minutes)",
+    "description": "Long break duration setting label"
+  },
+  "longBreakInterval": {
+    "message": "Long Break Interval",
+    "description": "Long break interval setting label"
+  },
+  "autoStartBreaks": {
+    "message": "Auto-start breaks",
+    "description": "Auto-start breaks setting"
+  },
+  "autoStartFocus": {
+    "message": "Auto-start focus sessions",
+    "description": "Auto-start focus setting"
+  },
+  "notifications": {
+    "message": "Enable notifications",
+    "description": "Notifications setting"
+  },
+  "soundEnabled": {
+    "message": "Enable sound",
+    "description": "Sound setting"
+  },
+  "saveSettings": {
+    "message": "Save Settings",
+    "description": "Save settings button"
+  }
+}

@@ -26,10 +26,11 @@ export async function initializeBackground(): Promise<void> {
  * Start a new focus session
  */
 export async function startFocus(): Promise<void> {
+  console.log('[TrueFocus] Starting focus session');
   const settings = await getSettings();
   const sessionId = generateId();
   const now = Date.now();
-  
+
   const timer: ActiveTimer = {
     state: 'running',
     mode: 'focus',
@@ -39,15 +40,17 @@ export async function startFocus(): Promise<void> {
     pausedAt: null,
     sessionId,
   };
-  
+
   await saveActiveTimer(timer);
   await createAlarm();
+  console.log('[TrueFocus] Focus session started');
 }
 
 /**
  * Start a new break session
  */
 export async function startBreak(): Promise<void> {
+  console.log('[TrueFocus] Starting break session');
   const settings = await getSettings();
   const sessionId = generateId();
   const now = Date.now();
@@ -211,11 +214,13 @@ export async function completeTimer(timer: ActiveTimer): Promise<void> {
   
   // Auto-open popup
   try {
+    // Small delay to ensure state is saved first
+    await new Promise(resolve => setTimeout(resolve, 100));
     await chrome.action.openPopup();
-  } catch {
+    console.log('[TrueFocus] Popup opened successfully');
+  } catch (error) {
     // Popup auto-open requires Chrome 127+
-    // eslint-disable-next-line no-console
-    console.log('[TrueFocus] Auto-popup not supported');
+    console.error('[TrueFocus] Failed to open popup:', error);
   }
 }
 
@@ -224,11 +229,16 @@ export async function completeTimer(timer: ActiveTimer): Promise<void> {
  */
 export async function handleTimerTick(): Promise<void> {
   const timer = await getActiveTimer();
-  if (!timer || timer.state !== 'running') return;
+  if (!timer || timer.state !== 'running') {
+    console.log('[TrueFocus] Timer tick skipped - not running');
+    return;
+  }
   
   timer.timeRemaining--;
+  console.log(`[TrueFocus] Timer tick: ${timer.timeRemaining}s remaining`);
   
   if (timer.timeRemaining <= 0) {
+    console.log('[TrueFocus] Timer completed!');
     await completeTimer(timer);
   } else {
     await saveActiveTimer(timer);
@@ -240,21 +250,26 @@ export async function handleTimerTick(): Promise<void> {
  * Show completion notification
  */
 async function showCompletionNotification(mode: TimerMode): Promise<void> {
-  const title = mode === 'focus' 
-    ? 'Focus Complete! 🎉'
-    : "Break's Over! 💪";
-  
-  const message = mode === 'focus'
-    ? 'Great job! Take a 5-minute break?'
-    : 'Ready to focus for 25 minutes?';
-  
-  await chrome.notifications.create({
-    type: 'basic',
-    iconUrl: 'icons/icon128.png',
-    title,
-    message,
-    priority: 2,
-  });
+  try {
+    const title = mode === 'focus' 
+      ? 'Focus Complete! 🎉'
+      : "Break's Over! 💪";
+    
+    const message = mode === 'focus'
+      ? 'Great job! Take a 5-minute break?'
+      : 'Ready to focus for 25 minutes?';
+    
+    await chrome.notifications.create({
+      type: 'basic',
+      iconUrl: 'icons/icon128.png',
+      title,
+      message,
+      priority: 2,
+    });
+    console.log('[TrueFocus] Notification shown');
+  } catch (error) {
+    console.error('[TrueFocus] Failed to show notification:', error);
+  }
 }
 
 /**
@@ -279,13 +294,16 @@ async function updateBadge(timer: ActiveTimer): Promise<void> {
  * Create timer alarm
  */
 async function createAlarm(): Promise<void> {
+  console.log('[TrueFocus] Creating alarm');
   await chrome.alarms.create(ALARM_NAME, { periodInMinutes: 1 / 60 });
+  console.log('[TrueFocus] Alarm created');
 }
 
 /**
  * Clear timer alarm
  */
 async function clearAlarm(): Promise<void> {
+  console.log('[TrueFocus] Clearing alarm');
   await chrome.alarms.clear(ALARM_NAME);
 }
 
