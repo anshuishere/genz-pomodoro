@@ -1,0 +1,64 @@
+
+/* SIMPLIFIED TIMER RING CSS - Debug Version */
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.timer-ring {
+  position: relative;
+  width: 240px;
+  height: 240px;
+}
+
+.timer-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 6;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: #6366f1;
+  stroke-width: 6;
+  stroke-linecap: round;
+  /* Circumference = 2 * PI * 110 = 691 */
+  stroke-dasharray: 691;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  filter: drop-shadow(0 0 4px #6366f1);
+}
+
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-time {
+  font-size: 56px;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  color: white;
+}
+
+.timer-mode-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
