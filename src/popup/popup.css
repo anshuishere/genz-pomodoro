@@ -11,6 +11,12 @@
   --secondary: #10b981;
   --secondary-glow: rgba(16, 185, 129, 0.4);
   
+  /* Mode-specific colors */
+  --focus-color: #6366f1;
+  --focus-glow: rgba(99, 102, 241, 0.5);
+  --break-color: #10b981;
+  --break-glow: rgba(16, 185, 129, 0.5);
+  
   /* Text */
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
@@ -89,6 +95,40 @@ body {
 
 .timer-display {
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mode Icon */
+.mode-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: var(--focus-color);
+  transition: all 0.5s ease;
+  filter: drop-shadow(0 0 8px var(--focus-glow));
+}
+
+/* Break mode styles */
+body.break-mode .mode-icon {
+  color: var(--break-color);
+  filter: drop-shadow(0 0 8px var(--break-glow));
+}
+
+body.break-mode .timer-time {
+  background: linear-gradient(180deg, #fff 0%, #6ee7b7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.break-mode .action-btn {
+  background: linear-gradient(135deg, var(--break-color), #34d399);
+  box-shadow: 0 8px 32px var(--break-glow);
+}
+
+body.break-mode .action-btn:hover {
+  box-shadow: 0 12px 40px var(--break-glow);
 }
 
 .timer-time {

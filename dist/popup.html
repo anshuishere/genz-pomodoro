@@ -21,11 +21,34 @@
       </button>
     </header>
 
+    <!-- Hidden SVG Icons -->
+    <svg style="display: none;">
+      <!-- Focus Icon - Target/Concentration -->
+      <symbol id="icon-focus" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+        <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+        <circle cx="32" cy="32" r="12" stroke="currentColor" stroke-width="2"/>
+        <circle cx="32" cy="32" r="4" fill="currentColor"/>
+        <path d="M32 8V14M32 50V56M8 32H14M50 32H56" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      </symbol>
+      
+      <!-- Break Icon - Coffee Cup -->
+      <symbol id="icon-break" viewBox="0 0 64 64">
+        <path d="M16 20H42V42C42 48.6274 37.6274 54 32 54C26.3726 54 22 48.6274 22 42V20Z" stroke="currentColor" stroke-width="2"/>
+        <path d="M42 28H46C50.4183 28 54 31.5817 54 36C54 40.4183 50.4183 44 46 44H42" stroke="currentColor" stroke-width="2"/>
+        <path d="M24 14C24 14 26 18 32 18C38 18 40 14 40 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <path d="M28 10C28 10 29 12 32 12C35 12 36 10 36 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+      </symbol>
+    </svg>
+
     <!-- Main Content -->
     <main class="main">
       <!-- Timer Display (NO RING - just text) -->
       <div class="timer-section">
         <div class="timer-display">
+          <svg id="mode-icon" class="mode-icon" width="48" height="48">
+            <use href="#icon-focus"/>
+          </svg>
           <span id="timer-time" class="timer-time">25:00</span>
           <span id="timer-mode" class="timer-mode-label">Ready to Focus</span>
         </div>

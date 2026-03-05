@@ -12,6 +12,7 @@ let timerInterval: number | null = null;
 const elements = {
   timerTime: document.getElementById('timer-time') as HTMLSpanElement,
   timerMode: document.getElementById('timer-mode') as HTMLSpanElement,
+  modeIcon: document.getElementById('mode-icon') as unknown as SVGSVGElement,
   actionBtn: document.getElementById('action-btn') as HTMLButtonElement,
   skipBtn: document.getElementById('skip-btn') as HTMLButtonElement,
   statusMessage: document.getElementById('status-message') as HTMLDivElement,
@@ -179,14 +180,37 @@ function updateDurationLabels(isTestMode: boolean): void {
 /**
  * Update UI based on current state
  */
+/**
+ * Update icon based on mode
+ */
+function updateModeIcon(mode: TimerMode): void {
+  const useElement = elements.modeIcon.querySelector('use');
+  if (useElement) {
+    useElement.setAttribute('href', mode === 'focus' ? '#icon-focus' : '#icon-break');
+  }
+}
+
+/**
+ * Update color theme based on mode
+ */
+function updateColorTheme(mode: TimerMode): void {
+  if (mode === 'break') {
+    document.body.classList.add('break-mode');
+  } else {
+    document.body.classList.remove('break-mode');
+  }
+}
+
 function updateUI(): void {
   if (!currentTimer || currentTimer.state === 'idle') {
-    // Idle state
+    // Idle state - default to focus mode styling
     elements.timerTime.textContent = formatTime(currentSettings.focusDuration);
     elements.timerMode.textContent = 'Ready to Focus';
     elements.actionBtn.textContent = 'Start Focus';
     elements.statusMessage.style.display = 'none';
     elements.skipBtn.style.display = 'none';
+    updateModeIcon('focus');
+    updateColorTheme('focus');
   } else if (currentTimer.state === 'running') {
     // Running state
     elements.timerTime.textContent = formatTime(currentTimer.timeRemaining);
@@ -194,6 +218,8 @@ function updateUI(): void {
     elements.actionBtn.textContent = 'Pause';
     elements.statusMessage.style.display = 'none';
     elements.skipBtn.style.display = 'inline-block';
+    updateModeIcon(currentTimer.mode);
+    updateColorTheme(currentTimer.mode);
   } else if (currentTimer.state === 'paused') {
     // Paused state
     elements.timerTime.textContent = formatTime(currentTimer.timeRemaining);
@@ -201,9 +227,13 @@ function updateUI(): void {
     elements.actionBtn.textContent = 'Resume';
     elements.statusMessage.style.display = 'none';
     elements.skipBtn.style.display = 'inline-block';
+    updateModeIcon(currentTimer.mode);
+    updateColorTheme(currentTimer.mode);
   } else if (currentTimer.state === 'completed') {
     // Completed state
     elements.timerTime.textContent = '00:00';
+    updateModeIcon(currentTimer.mode);
+    updateColorTheme(currentTimer.mode);
     
     if (currentTimer.mode === 'focus') {
       elements.timerMode.textContent = 'Focus Complete!';
