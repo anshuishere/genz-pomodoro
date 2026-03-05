@@ -231,6 +231,8 @@ export async function handleTimerTick(): Promise<void> {
   const timer = await getActiveTimer();
   if (!timer || timer.state !== 'running') {
     console.log('[TrueFocus] Timer tick skipped - not running');
+    // Clear alarm if no active timer to prevent continuous firing
+    await clearAlarm();
     return;
   }
   

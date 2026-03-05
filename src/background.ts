@@ -16,14 +16,18 @@ import {
  */
 
 // Initialize on install/update
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   // eslint-disable-next-line no-console
   console.log('[TrueFocus] Extension installed:', details.reason);
+  // Clear any existing alarms from previous sessions
+  await chrome.alarms.clearAll();
   initializeBackground();
 });
 
 // Initialize on startup
-chrome.runtime.onStartup.addListener(() => {
+chrome.runtime.onStartup.addListener(async () => {
+  // Clear any existing alarms from previous sessions
+  await chrome.alarms.clearAll();
   initializeBackground();
 });
 
